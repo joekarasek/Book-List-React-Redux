@@ -1,13 +1,19 @@
 import React, { Component } from 'react';
 import {connect} from "react-redux";
-import {bindActionCreators} from "redux";
+// import {bindActionCreators} from "redux";
 
 class BookDetail extends Component {
     render() {
-        const bookTitle = this.props.activeBook ? this.props.activeBook.title : 'Select a book';
+        if (!this.props.activeBook) {
+            return <div>Select a book to get started.</div>;
+        }
 
         return (
-            <div>{bookTitle}</div>
+            <div>
+                <h3>Book Details</h3>
+                <div>{this.props.activeBook.title}</div>
+                <div>Pages: {this.props.activeBook.pages}</div>
+            </div>
         );
     }
 }
@@ -19,15 +25,6 @@ function mapStateToProps(state) {
         activeBook: state.activeBook
     }
 }
-
-// Connects to actions lifecycle
-// Anything returned from this will be set as props on this component
-// function mapDispathToProps(dispatch) {
-//     // Whenever selectBook is called, the result should be passed
-//     // to all reducers
-//     return bindActionCreators({ selectBook: selectBook }, dispatch);
-// }
-
 
 // Promotes this component to a redux "container" that is connected to the redux lifecycle
 export default connect(mapStateToProps)(BookDetail);
